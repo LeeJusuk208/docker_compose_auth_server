@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - front-server
+      - api-server
+      - auth-server
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  front-server:
+    image: nginx:latest
+    ports:
+      - "10080:80"
+
+
+  api-server:
+    image: nginx:latest
+    ports:
+      - "30080:80"
+    depends_on:
+      - auth-server
+    volumes:
+      - ./api-server/default.conf:/etc/nginx/conf.d/default.conf
+
+  auth-server:
+    image: jusuk/auth-server:latest
+    ports:
+      - "8080:8080"
