@@ -8,15 +8,15 @@ services:
     depends_on:
       - front-server
       - api-server
-      - auth-server
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/conf.d/default.conf
 
   front-server:
     image: nginx:latest
     ports:
-      - "10080:80"
-
+      - "20080:80"
+    depends_on:
+      - api-server
 
   api-server:
     image: nginx:latest
@@ -24,10 +24,27 @@ services:
       - "30080:80"
     depends_on:
       - auth-server
+      - alarm-server
+      - goods-server
     volumes:
       - ./api-server/default.conf:/etc/nginx/conf.d/default.conf
 
   auth-server:
     image: jusuk/auth-server:latest
     ports:
-      - "8080:8080"
+      - "28081:8080"
+
+  goods-server:
+    image: jusuk/goods-server:latest
+    ports:
+      - "28082:8080"
+    depends_on:
+      - "auth-server"
+
+  alarm-server:
+    image: jusuk/alarm-server:latest
+    # image: alarm-server:latest
+    ports:
+      - "28080:8080"
+    depends_on:
+      - "auth-server"
