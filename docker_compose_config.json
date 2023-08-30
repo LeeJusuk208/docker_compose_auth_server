@@ -1,5 +1,8 @@
 {
     "front_server_scale": "3",
-    "auth_server_scale": "3"
+    "api_server_scale": "2",
+    "auth_server_scale": "3",
+    "goods_server_scale": "1",
+    "alarm_server_scale": "1"
 }
   

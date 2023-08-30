@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  nginx:
+  proxy:
     image: nginx:latest
     ports:
       - "80:80"
@@ -18,8 +18,6 @@ services:
 
   api-server:
     image: nginx:latest
-    ports:
-      - "30080:80"
     depends_on:
       - auth-server
       - alarm-server
@@ -34,8 +32,6 @@ services:
     
   session-db-server:
     image: jusuk/session-db-server:latest
-    ports:
-      - "23306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: passwd
     healthcheck:
@@ -47,15 +43,10 @@ services:
 
   goods-server:
     image: jusuk/goods-server:latest
-    ports:
-      - "28082:8080"
     depends_on:
       - "auth-server"
 
   alarm-server:
     image: jusuk/alarm-server:latest
-    # image: alarm-server:latest
-    ports:
-      - "28080:8080"
     depends_on:
       - "auth-server"
