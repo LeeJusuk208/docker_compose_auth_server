@@ -33,6 +33,21 @@ services:
     image: jusuk/auth-server:latest
     ports:
       - "28081:8080"
+    depends_on:
+      - session-db-server
+    
+  session-db-server:
+    image: jusuk/session-db-server:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -uadnin -ppasswd SESSION_DB
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
 
   goods-server:
     image: jusuk/goods-server:latest
