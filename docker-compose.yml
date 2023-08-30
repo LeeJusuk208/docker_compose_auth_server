@@ -39,7 +39,7 @@ services:
   session-db-server:
     image: jusuk/session-db-server:latest
     ports:
-      - "3306:3306"
+      - "23306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: passwd
     healthcheck:
